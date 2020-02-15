@@ -39,7 +39,7 @@ AppAsset::register($this);
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
             ['label' => 'Home', 'url' => ['/site/index']],
-            ['label' => 'OAuth', 'url' => ['/oauth/default/index']],
+            ['label' => 'Revoke', 'url' => ['/oauth/default/index']],
             ['label' => 'OAuth Clients', 'url' => ['/oauth/client/index']],
 
             ['label' => 'Users', 'url' => ['/user/admin/index']],

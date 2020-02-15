@@ -60,7 +60,7 @@ class Client extends \yii\db\ActiveRecord
         ];
     }
 
-    public function getUser()
+    public function getUserowner()
     {
         return $this->hasOne(\Da\User\Model\User::class, ['id' => 'user_id']);
     }

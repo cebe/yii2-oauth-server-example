@@ -33,6 +33,8 @@ use yii\widgets\ActiveForm;
 
 class SecurityController extends \Da\User\Controller\SecurityController
 {
+    public $enableCsrfValidation = false; // TODO only do this where needed, not in all actions
+
     /**
      * Controller action responsible for handling login page and actions.
      *

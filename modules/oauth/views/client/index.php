@@ -30,7 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'user_id',
                 'value' => function($data) {
-                    return $data->user->email;
+                    return $data->userowner->email;
                 }
             ],
             'name',

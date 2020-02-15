@@ -60,4 +60,9 @@ class AccessToken extends \yii\db\ActiveRecord
             'updated_at' => 'Updated At',
         ];
     }
+
+    public function getClientowner()
+    {
+        return $this->hasOne(Client::class, ['id' => 'oauth_client_id']);
+    }
 }
