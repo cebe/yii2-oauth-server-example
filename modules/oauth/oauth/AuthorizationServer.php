@@ -56,14 +56,12 @@ class AuthorizationServer extends LeagueOauth2AuthorizationServer
              new \DateInterval('PT10M') // authorization codes will expire after 10 minutes
         );
 
-        // $grant->setDefaultScope('email'); // TODO - bug? - not working
-        // var_dump($grant->getDefaultScope()); die;
         $grant->disableRequireCodeChallengeForPublicClients();
         $grant->setRefreshTokenTTL(new \DateInterval('P1M')); // refresh tokens will expire after 1 month
 
         // Enable the authentication code grant on the server
 
-        $server->setDefaultScope('email'); // this also doesn't work
+        $server->setDefaultScope('email');
         $server->enableGrantType(
             $grant,
             new \DateInterval('PT1H') // access tokens will expire after 1 hour

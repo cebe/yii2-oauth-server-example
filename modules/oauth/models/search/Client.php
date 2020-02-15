@@ -2,6 +2,7 @@
 
 namespace app\modules\oauth\models\search;
 
+use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\modules\oauth\models\Client as ClientModel;
@@ -41,6 +42,10 @@ class Client extends ClientModel
     public function search($params)
     {
         $query = ClientModel::find();
+
+        if (!Yii::$app->user->can('administrator')) {
+            $query->andWhere(['user_id' => Yii::$app->user->identity->id]);
+        }
 
         // add conditions that should always apply here
 

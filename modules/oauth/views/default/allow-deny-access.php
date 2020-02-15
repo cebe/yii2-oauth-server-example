@@ -5,12 +5,19 @@
 use yii\helpers\Html;
 
 ?>
+
 <h1>OAuth Module</h1>
 
 Allow or deny access
 
 <p></p>
-<?=$scopeDesc?>
+<p>Scopes</p>
+
+<?php
+    foreach ($scopeDesc as $value) {
+        echo ' - ' . $value; echo "<p></p>";
+    }
+?>
 
 <p></p>
 <p></p>

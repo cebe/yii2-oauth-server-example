@@ -27,12 +27,16 @@ class AccessTokenRepository implements AccessTokenRepositoryInterface
         $arr = [
             'oauth_client_id' => $clientEntity->getIdentifier(),
             'user_id' => $userIdentifier,
-            'userIdentifier' => $userIdentifier,
+            // 'userIdentifier' => $userIdentifier,
         ];
-        if ($scopes) {
-            $arr['scopes'] = implode(',', static::scopesToArray($scopes));
+        // if ($scopes) {
+        //     $arr['scopes'] = implode(',', static::scopesToArray($scopes));
+        // }
+        $ate = new AccessTokenEntity($arr);
+        foreach ($scopes as $aScope) {
+            $ate->addScope($aScope);
         }
-        return new AccessTokenEntity($arr);
+        return $ate;
     }
 
     /**
@@ -44,13 +48,13 @@ class AccessTokenRepository implements AccessTokenRepositoryInterface
         // $accessTokenEntity->user_id = 2;
         // // print_r($accessTokenEntity->save()); die;
         // $accessTokenEntity->save();
-        // print_r($accessTokenEntity); die;
+        // print_r($accessTokenEntity->getScopes()); die;
 
         $at = new AccessTokenEntity([
             'id' => $accessTokenEntity->getIdentifier(),
             'user_id' => $accessTokenEntity->getUserIdentifier(),
             'oauth_client_id' => $accessTokenEntity->getClient()->getIdentifier(),
-            'scopes' => $accessTokenEntity->scopes, #implode(',', static::scopesToArray($accessTokenEntity->getScopes())),
+            'scopes' => implode(',', static::scopesToArray($accessTokenEntity->getScopes())),
             'is_revoked' => false,
             'created_at' => (new \DateTime())->format('Y-m-d H:i:s'),
             'updated_at' => (new \DateTime())->format('Y-m-d H:i:s'),

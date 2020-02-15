@@ -16,6 +16,9 @@ $config = [
     'modules' => [
         'oauth' => app\modules\oauth\Module::class,
         'user' => require __DIR__ . '/usuario.php',
+        'api' => [
+            'class' => 'app\modules\api\Module',
+        ],
     ],
 
     'components' => [
@@ -26,6 +29,10 @@ $config = [
         ],
         'response' => [
             'class' => \app\components\psr7\Response::class,
+        ],
+        'session' => [
+            'class' => \yii\web\Session::class,
+            'name' => 'oauth_server'
         ],
         'cache' => [
             'class' => 'yii\caching\FileCache',

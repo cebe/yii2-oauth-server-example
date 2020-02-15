@@ -2,6 +2,7 @@
 
 namespace app\modules\oauth\controllers;
 
+use yii\filters\AccessControl;
 use Yii;
 use app\modules\oauth\models\Client;
 use app\modules\oauth\models\search\Client as ClientSearch;
@@ -20,6 +21,16 @@ class ClientController extends Controller
     public function behaviors()
     {
         return [
+            'accessControl' => [
+                'class' => AccessControl::class,
+                'rules' => [
+                    [
+                        // 'actions' => ['authorize', 'my-access-token'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ]
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -66,7 +77,12 @@ class ClientController extends Controller
     {
         $model = new Client();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+            $model->secret = Yii::$app->security->generateRandomString(64); // TODO check uniqueness  by select query or define unique key in DB
+            $model->user_id = Yii::$app->user->identity->id;
+            $model->created_at = date('Y-m-d H:i:s');
+            $model->updated_at = $model->created_at;
+            $model->save();
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
@@ -86,7 +102,9 @@ class ClientController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+            $model->updated_at = date('Y-m-d H:i:s');
+            $model->save();
             return $this->redirect(['view', 'id' => $model->id]);
         }
 

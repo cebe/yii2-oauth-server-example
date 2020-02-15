@@ -24,18 +24,23 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+            // ['class' => 'yii\grid\SerialColumn'],
 
             'id',
-            'user_id',
+            [
+                'attribute' => 'user_id',
+                'value' => function($data) {
+                    return $data->user->email;
+                }
+            ],
             'name',
             'secret',
             'redirect_uri:ntext',
-            //'personal_access_client',
-            //'password_client',
-            //'is_revoked',
-            //'created_at',
-            //'updated_at',
+            'personal_access_client',
+            'password_client',
+            'is_revoked',
+            'created_at',
+            'updated_at',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

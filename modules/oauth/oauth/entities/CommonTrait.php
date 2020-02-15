@@ -98,7 +98,7 @@ trait CommonTrait
         $this->oauth_client_id = $client;
     }
 
-            /**
+    /**
      * Return an array of scopes associated with the token.
      *
      * @return ScopeEntityInterface[]
@@ -129,9 +129,9 @@ trait CommonTrait
     public function addScope(ScopeEntityInterface $scope)
     {
         $this->scopesNewHere[$scope->getIdentifier()] = $scope;
-        if ($this->scopesNewHere) {
-            $this->scopes = implode(',', array_keys($this->scopesNewHere));
-        }
+        // if ($this->scopesNewHere) {
+        //     $this->scopes = implode(',', array_keys($this->scopesNewHere));
+        // }
 
         // $this->convertScopesStrToArr();
         // $this->scopes[$scope->getIdentifier()] = $scope;

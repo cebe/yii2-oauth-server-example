@@ -9,6 +9,7 @@
 
 namespace app\modules\oauth\oauth\entities;
 
+use app\modules\oauth\oauth\repositories\AccessTokenRepository;
 use Lcobucci\JWT\Builder;
 use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Signer\Rsa\Sha256;
@@ -69,7 +70,26 @@ class AccessTokenEntity extends AccessToken implements AccessTokenEntityInterfac
             ->setSubject((string) $this->getUserIdentifier())
             ->set('scopes', $this->getScopes())
             ->sign(new Sha256(), new Key($privateKey->getKeyPath(), $privateKey->getPassPhrase()))
-            ->withHeader('my-custom-header', json_encode(['my-custom-header-value'=>'dablu', 'as' => 'asdasdasd'])) // it works. & TODO add some data from LDAP; events; add User details here
+            ->withHeader('my-custom-header', json_encode(['my-custom-header-value'=>'dablu', 'foo' => 'bar'])) // add custom data here
             ->getToken();
+    }
+
+    /**
+     * [checkToken description]
+     * @param  [type] $user_id [description]
+     * @param  [type] $client  [description]
+     * @param  [type] $scopes  [description]
+     * @return [type]          [description]
+     */
+    public static function checkToken($user_id, $client, $scopes)
+    {
+        return static::find()->where([
+            'user_id' => $user_id,
+            'oauth_client_id' => $client->getIdentifier(),
+            'scopes' => implode(',', AccessTokenRepository::scopesToArray($scopes)),
+            'is_revoked' => 0,
+        ])->andWhere(
+            ['>=', 'expires_at', date('Y-m-d H:i:s')]
+        )->one();
     }
 }

@@ -18,7 +18,7 @@ class ScopeRepository implements ScopeRepositoryInterface
 {
     public $allScopes = [
         'basic' => [
-            'description' => 'basic  for simple login'
+            'description' => 'Basic scope for simple login' // in this demo, client can still able to get email address
         ],
         'email' => [
             'description' => 'Your email address and other basic info will be shared',
@@ -48,21 +48,10 @@ class ScopeRepository implements ScopeRepositoryInterface
         ClientEntityInterface $clientEntity,
         $userIdentifier = null
     ) {
-        // Example of programatically modifying the final scope of the access token
-        // if ((int) $userIdentifier === 1) {
-        //     $scope = new ScopeEntity();
-        //     $scope->setIdentifier('email');
-        //     $scopes[] = $scope;
-        // }
-
-        if (!$scopes) { // case when scope is present in request query string but empty
+        if (!$scopes) { // case when scope is present in request query string but empty && add default scope if no scope given
             $scopes[] = $this->getScopeEntityByIdentifier('email');
         }
 
         return $scopes; // currently there is no need to add/remove any scopes
-
-        // unset($scopes);
-        // $scopes = [$this->getScopeEntityByIdentifier('basic'), $this->getScopeEntityByIdentifier('email')]; // currently only basic is required
-        // return $scopes;
     }
 }

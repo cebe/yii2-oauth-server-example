@@ -29,11 +29,16 @@ class AuthCodeRepository implements AuthCodeRepositoryInterface
      */
     public function persistNewAuthCode(AuthCodeEntityInterface $authCodeEntity)
     {
+        // set default to email when scope is present but is empty string in request query string
+        // if (!$authCodeEntity->scopes) {
+        //     $authCodeEntity->addScope('email');
+        // }
+
         $ac = new AuthCodeEntity([
             'id' => $authCodeEntity->getIdentifier(),
             'user_id' => $authCodeEntity->getUserIdentifier(),
             'oauth_client_id' => $authCodeEntity->getClient()->getIdentifier(),
-            'scopes' => $authCodeEntity->scopes ?: 'email' , #implode(',', AccessTokenRepository::scopesToArray($authCodeEntity->getScopes())), // set default to email when scope is present but is empty string in request query string
+            'scopes' => implode(',', AccessTokenRepository::scopesToArray($authCodeEntity->getScopes())),
             'is_revoked' => false,
             'expires_at' => $authCodeEntity->getExpiryDateTime()->format('Y-m-d H:i:s'),
         ]);
