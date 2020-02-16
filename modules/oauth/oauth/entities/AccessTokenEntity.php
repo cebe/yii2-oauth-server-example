@@ -25,10 +25,8 @@ use League\OAuth2\Server\Entities\Traits\TokenEntityTrait;
 
 class AccessTokenEntity extends AccessToken implements AccessTokenEntityInterface
 {
-    // use AccessTokenTrait, TokenEntityTrait, EntityTrait;
     use CommonTrait;
 
-    // use AccessTokenTrait; // TokenEntityTrait;, EntityTrait
     /**
      * @var \League\OAuth2\Server\CryptKey
      */
@@ -75,11 +73,11 @@ class AccessTokenEntity extends AccessToken implements AccessTokenEntityInterfac
     }
 
     /**
-     * [checkToken description]
-     * @param  [type] $user_id [description]
-     * @param  [type] $client  [description]
-     * @param  [type] $scopes  [description]
-     * @return [type]          [description]
+     * Check Token
+     * @param  int|string $user_id
+     * @param  app\modules\oauth\oauth\entities\ClientEntity $client
+     * @param  app\modules\oauth\oauth\entities\ScopeEntity[] $scopes
+     * @return $this|null
      */
     public static function checkToken($user_id, $client, $scopes)
     {

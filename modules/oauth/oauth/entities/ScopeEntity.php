@@ -15,21 +15,6 @@ use League\OAuth2\Server\Entities\Traits\ScopeTrait;
 
 class ScopeEntity implements ScopeEntityInterface
 {
-    // use EntityTrait, ScopeTrait;
-
-    // public $id;
-
-    /**
-     * Get the scope's identifier.
-     *
-     * @return string
-     */
-    // public function getIdentifier()
-    // {
-    //     return $this->id;
-    //     // return 'basic'; // currently only one scope(basic for auth) is in requirements
-    // }
-
     /**
      * @var string
      */

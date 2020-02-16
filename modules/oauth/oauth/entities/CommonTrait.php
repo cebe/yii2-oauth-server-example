@@ -12,10 +12,7 @@ trait CommonTrait
     /**
      * @var ScopeEntityInterface[]
      */
-    protected $scopesHere = [];
     protected $scopesNewHere = [];
-
-    // protected $userIdentifier;
 
     /**
      * Get the token's identifier.
@@ -65,7 +62,6 @@ trait CommonTrait
     public function getUserIdentifier()
     {
         return $this->user_id;
-        // return $this->userIdentifier;
     }
 
     /**
@@ -76,7 +72,6 @@ trait CommonTrait
     public function setUserIdentifier($identifier)
     {
         $this->user_id = $identifier;
-        // $this->userIdentifier = $identifier;
     }
 
     /**
@@ -106,19 +101,6 @@ trait CommonTrait
     public function getScopes()
     {
         return array_values($this->scopesNewHere);
-        // in db we will store comma separated
-        // $this->convertScopesStrToArr();
-        // $scopes = [];
-        // $sr = new ScopeRepository;
-        // if ( is_string($this->scopes) && !empty(trim($this->scopes))) {
-        //     foreach (explode(',', $this->scopes) as $aScope) {
-        //         $scopes[] = $sr->getScopeEntityByIdentifier($aScope);
-        //     }
-        // } elseif (is_array($this->scopes)) {
-        //     return $this->scopes;
-        // }
-        // // return $this->scopes;
-        // return $scopes;
     }
 
     /**
@@ -129,65 +111,5 @@ trait CommonTrait
     public function addScope(ScopeEntityInterface $scope)
     {
         $this->scopesNewHere[$scope->getIdentifier()] = $scope;
-        // if ($this->scopesNewHere) {
-        //     $this->scopes = implode(',', array_keys($this->scopesNewHere));
-        // }
-
-        // $this->convertScopesStrToArr();
-        // $this->scopes[$scope->getIdentifier()] = $scope;
-        // $this->getScopes();
-        // $scopeId = $scope->getIdentifier();
-        // $allScopesHere = [];
-        // // $sr = new ScopeRepository;
-        // $isIncluded = false;
-        // if (!empty(trim($this->scopes))) {
-        //     foreach (explode(',', $this->scopes) as $aScope) {
-        //         if ($aScope === $scopeId) {
-        //             $isIncluded = true;
-        //         }
-        //         $allScopesHere[] = $aScope;
-        //     }
-        // }
-
-        // // $scopes[] = $scope;
-        // if ($isIncluded === false) {
-        //     $allScopesHere[] = $scopeId;
-        // }
-        // if (count($allScopesHere) > 0) {
-        //     $this->scopes = implode(',', $allScopesHere);
-        // }
     }
-
-    public function convertScopesArrToStr()
-    {
-        if (is_array($this->scopes)) {
-            $scopes = [];
-            foreach ($this->scopes as $key => $aScope) {
-                $scopes[] = $aScope->getIdentifier();
-            }
-            $this->scopes = implode(',', $scopes);
-        }
-    }
-
-    public function convertScopesStrToArr()
-    {
-        if (is_string($this->scopes)) {
-            $sr = new ScopeRepository;
-            $scopes = [];
-            foreach (explode(',', $this->scopes) as $aScope) {
-                $scopes[] = $sr->getScopeEntityByIdentifier($aScope);
-            }
-            $this->scopes = $scopes;
-        }
-    }
-
-    // public function addScope(ScopeEntityInterface $scope)
-    // {
-    //     $this->scopesHere[$scope->getIdentifier()] = $scope;
-    // }
-
-    // public function getScopes()
-    // {
-    //     return array_values($this->scopesHere);
-    // }
 }

@@ -29,19 +29,6 @@ class AuthCode extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-    // public function rules()
-    // {
-    //     return [
-    //         [['authorization_code', 'oauth_client_id'], 'required'],
-    //         [['user_id', 'oauth_client_id', 'is_revoked'], 'integer'],
-    //         [['expires_at', 'created_at'], 'safe'],
-    //         [['authorization_code', 'scope'], 'string', 'max' => 100],
-    //     ];
-    // }
-
-    /**
-     * {@inheritdoc}
-     */
     public function attributeLabels()
     {
         return [

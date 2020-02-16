@@ -17,25 +17,7 @@ use app\modules\oauth\models\AuthCode;
 
 class AuthCodeEntity extends AuthCode implements AuthCodeEntityInterface
 {
-    // use EntityTrait, TokenEntityTrait, AuthCodeTrait;
     use CommonTrait;
-
-    // use EntityTrait, TokenEntityTrait, AuthCodeTrait;
-    /**
-     * @return string|null
-     */
-    // public function getRedirectUri()
-    // {
-    //     $this->getClient()->redirect_uri;
-    // }
-
-    /**
-     * @param string $uri
-     */
-    // public function setRedirectUri($uri)
-    // {
-    //     $this->getClient()->redirect_uri = $uri;
-    // }
 
     /**
      * @var null|string

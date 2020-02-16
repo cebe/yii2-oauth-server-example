@@ -14,8 +14,6 @@ use League\OAuth2\Server\Entities\AccessTokenEntityInterface;
 use League\OAuth2\Server\Entities\ClientEntityInterface;
 use League\OAuth2\Server\Repositories\AccessTokenRepositoryInterface;
 use \DateTime;
-// use OAuth2ServerExamples\Entities\AccessTokenEntity;
-
 
 class AccessTokenRepository implements AccessTokenRepositoryInterface
 {
@@ -27,11 +25,8 @@ class AccessTokenRepository implements AccessTokenRepositoryInterface
         $arr = [
             'oauth_client_id' => $clientEntity->getIdentifier(),
             'user_id' => $userIdentifier,
-            // 'userIdentifier' => $userIdentifier,
         ];
-        // if ($scopes) {
-        //     $arr['scopes'] = implode(',', static::scopesToArray($scopes));
-        // }
+
         $ate = new AccessTokenEntity($arr);
         foreach ($scopes as $aScope) {
             $ate->addScope($aScope);
@@ -44,12 +39,6 @@ class AccessTokenRepository implements AccessTokenRepositoryInterface
      */
     public function persistNewAccessToken(AccessTokenEntityInterface $accessTokenEntity)
     {
-        // $accessTokenEntity->convertScopesArrToStr();
-        // $accessTokenEntity->user_id = 2;
-        // // print_r($accessTokenEntity->save()); die;
-        // $accessTokenEntity->save();
-        // print_r($accessTokenEntity->getScopes()); die;
-
         $at = new AccessTokenEntity([
             'id' => $accessTokenEntity->getIdentifier(),
             'user_id' => $accessTokenEntity->getUserIdentifier(),
@@ -60,14 +49,8 @@ class AccessTokenRepository implements AccessTokenRepositoryInterface
             'updated_at' => (new \DateTime())->format('Y-m-d H:i:s'),
             'expires_at' => $accessTokenEntity->getExpiryDateTime()->format('Y-m-d H:i:s'),
         ]);
-        // var_dump($at->scopes);
-        // $accessTokenEntity->convertScopesArrToStr();
-        // $at->scopes = $accessTokenEntity->getScopes();
-        // $at->convertScopesArrToStr();
-        // var_dump($at->scopes); die;
         $at->save();
-
-        // events can be used here
+        // events can be triggered here
     }
 
     /**
@@ -101,7 +84,6 @@ class AccessTokenRepository implements AccessTokenRepositoryInterface
      */
     public static function scopesToArray(array $scopes)
     {
-        // print_r($scopes); die;
         return array_map(function ($scope) {
             return $scope->getIdentifier();
         }, $scopes);

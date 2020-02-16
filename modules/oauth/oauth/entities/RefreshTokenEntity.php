@@ -17,8 +17,6 @@ use app\modules\oauth\models\RefreshToken;
 
 class RefreshTokenEntity extends RefreshToken implements RefreshTokenEntityInterface
 {
-    // use RefreshTokenTrait, EntityTrait;
-    //
     /**
      * Get the token's identifier.
      *

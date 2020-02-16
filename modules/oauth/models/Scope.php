@@ -29,20 +29,6 @@ class Scope extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-    // public function rules()
-    // {
-    //     return [
-    //         [['scope'], 'required'],
-    //         [['description'], 'string'],
-    //         [['is_default', 'created_by', 'updated_by'], 'integer'],
-    //         [['created_at', 'updated_at'], 'safe'],
-    //         [['scope'], 'string', 'max' => 100],
-    //     ];
-    // }
-
-    /**
-     * {@inheritdoc}
-     */
     public function attributeLabels()
     {
         return [

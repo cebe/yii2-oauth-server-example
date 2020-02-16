@@ -23,16 +23,10 @@ class AuthorizationServer extends LeagueOauth2AuthorizationServer
     {
         // Init our repositories
         $clientRepository = new ClientRepository(); // instance of ClientRepositoryInterface
-        // $clientObj = $clientRepository->getClientEntity(1);
 
         $scopeRepository = new ScopeRepository(); // instance of ScopeRepositoryInterface
-        // $basicScope = $scopeRepository->getScopeEntityByIdentifier('basic');
-
-        // $ate = new AccessTokenEntity();
 
         $accessTokenRepository = new AccessTokenRepository(); // instance of AccessTokenRepositoryInterface
-        // $ate = $accessTokenRepository->getNewToken($clientObj, [$basicScope], 2);
-        // print_r($accessTokenRepository->persistNewAccessToken($ate)); die;
 
         $authCodeRepository = new AuthCodeRepository(); // instance of AuthCodeRepositoryInterface
         $refreshTokenRepository = new RefreshTokenRepository(); // instance of RefreshTokenRepositoryInterface

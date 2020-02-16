@@ -25,16 +25,6 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'redirect_uri') ?>
 
-    <?php // echo $form->field($model, 'personal_access_client') ?>
-
-    <?php // echo $form->field($model, 'password_client') ?>
-
-    <?php // echo $form->field($model, 'is_revoked') ?>
-
-    <?php // echo $form->field($model, 'created_at') ?>
-
-    <?php // echo $form->field($model, 'updated_at') ?>
-
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
         <?= Html::resetButton('Reset', ['class' => 'btn btn-outline-secondary']) ?>

@@ -27,19 +27,6 @@ class RefreshToken extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-    // public function rules()
-    // {
-    //     return [
-    //         [['refresh_token'], 'required'],
-    //         [['refresh_token'], 'string'],
-    //         [['is_revoked'], 'integer'],
-    //         [['expires_at', 'created_at', 'updated_at'], 'safe'],
-    //     ];
-    // }
-
-    /**
-     * {@inheritdoc}
-     */
     public function attributeLabels()
     {
         return [

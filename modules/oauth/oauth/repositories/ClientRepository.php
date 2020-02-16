@@ -15,28 +15,12 @@ use app\modules\oauth\oauth\entities\ClientEntity;
 
 class ClientRepository implements ClientRepositoryInterface
 {
-    // const CLIENT_NAME = 'My Awesome App';
-    // const REDIRECT_URI = 'http://foo/bar';
-
     /**
      * {@inheritdoc}
      */
     public function getClientEntity($clientIdentifier)
     {
         return ClientEntity::findOne($clientIdentifier);
-        // if (!$client) {
-        //     return;
-        // }
-        // return $client;
-        // $client = new ClientEntity();
-
-        // $client->setIdentifier($clientIdentifier);
-        // $client->setName(self::CLIENT_NAME);
-        // $client->setRedirectUri(self::REDIRECT_URI);
-        // $client->setConfidential();
-
-        // return $client;
-
     }
 
     /**
@@ -52,26 +36,5 @@ class ClientRepository implements ClientRepositoryInterface
         }
 
         return true;
-
-        // $clients = [
-        //     'myawesomeapp' => [
-        //         'secret'          => \password_hash('abc123', PASSWORD_BCRYPT),
-        //         'name'            => self::CLIENT_NAME,
-        //         'redirect_uri'    => self::REDIRECT_URI,
-        //         'is_confidential' => true,
-        //     ],
-        // ];
-
-        // // Check if client is registered
-        // if (\array_key_exists($clientIdentifier, $clients) === false) {
-        //     return;
-        // }
-
-        // if (
-        //     $clients[$clientIdentifier]['is_confidential'] === true
-        //     && \password_verify($clientSecret, $clients[$clientIdentifier]['secret']) === false
-        // ) {
-        //     return;
-        // }
     }
 }

@@ -11,7 +11,6 @@ namespace app\modules\oauth\oauth\repositories;
 
 use League\OAuth2\Server\Entities\AuthCodeEntityInterface;
 use League\OAuth2\Server\Repositories\AuthCodeRepositoryInterface;
-// use OAuth2ServerExamples\Entities\AuthCodeEntity;]
 use app\modules\oauth\oauth\entities\AuthCodeEntity;
 
 class AuthCodeRepository implements AuthCodeRepositoryInterface
@@ -29,11 +28,6 @@ class AuthCodeRepository implements AuthCodeRepositoryInterface
      */
     public function persistNewAuthCode(AuthCodeEntityInterface $authCodeEntity)
     {
-        // set default to email when scope is present but is empty string in request query string
-        // if (!$authCodeEntity->scopes) {
-        //     $authCodeEntity->addScope('email');
-        // }
-
         $ac = new AuthCodeEntity([
             'id' => $authCodeEntity->getIdentifier(),
             'user_id' => $authCodeEntity->getUserIdentifier(),
@@ -42,8 +36,6 @@ class AuthCodeRepository implements AuthCodeRepositoryInterface
             'is_revoked' => false,
             'expires_at' => $authCodeEntity->getExpiryDateTime()->format('Y-m-d H:i:s'),
         ]);
-        // $authCodeEntity->convertScopesStrToArr();
-        // $ac->scopes = $authCodeEntity->getScopes();
         $ac->save();
     }
 

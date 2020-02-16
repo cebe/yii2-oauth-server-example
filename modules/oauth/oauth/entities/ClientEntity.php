@@ -16,24 +16,6 @@ use app\modules\oauth\models\Client;
 
 class ClientEntity extends Client implements ClientEntityInterface
 {
-    // use EntityTrait, ClientTrait;
-
-    // public function setName($name)
-    // {
-    //     $this->name = $name;
-    // }
-
-    // public function setRedirectUri($uri)
-    // {
-    //     $this->redirect_uri = $uri;
-    // }
-
-    // public function setConfidential()
-    // {
-    //     // TODO check
-    //     $this->isConfidential = false;
-    // }
-
     /**
      * Get the client's identifier.
      *

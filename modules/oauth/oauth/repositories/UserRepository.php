@@ -25,11 +25,6 @@ class UserRepository implements UserRepositoryInterface
         $grantType,
         ClientEntityInterface $clientEntity
     ) {
-        // if ($username === 'alex' && $password === 'whisky') {
-        //     return new UserEntity();
-        // }
-        // return;
-
         $user = User::find()->whereUsernameOrEmail($username)->one();
         if (!$user) {
             return;

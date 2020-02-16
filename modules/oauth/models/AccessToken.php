@@ -31,20 +31,6 @@ class AccessToken extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-    // public function rules()
-    // {
-    //     return [
-    //         [['access_token', 'oauth_client_id'], 'required'],
-    //         [['access_token', 'scopes'], 'string'],
-    //         [['user_id', 'oauth_client_id', 'is_revoked'], 'integer'],
-    //         [['expires_at', 'created_at', 'updated_at'], 'safe'],
-    //         [['name'], 'string', 'max' => 255],
-    //     ];
-    // }
-
-    /**
-     * {@inheritdoc}
-     */
     public function attributeLabels()
     {
         return [

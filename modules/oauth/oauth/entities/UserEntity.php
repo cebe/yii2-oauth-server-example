@@ -22,7 +22,5 @@ class UserEntity extends User implements UserEntityInterface
     public function getIdentifier()
     {
         return $this->getId();
-        // return \Yii::$app->user->identity->id;
-        // return 1;
     }
 }

@@ -50,13 +50,10 @@ class DefaultController extends Controller
     {
         $accessToken = AccessTokenEntity::find()->andWhere([
             'user_id' => Yii::$app->user->identity->id,
-            // 'oauth_client_id' => $client->getIdentifier(),
-            // 'scopes' => implode(',', AccessTokenRepository::scopesToArray($scopes)),
             'is_revoked' => 0,
         ])->andWhere(
             ['>=', 'expires_at', date('Y-m-d H:i:s')]
         )->one();
-        // print_r($clients); die;
 
         return $this->render('index', ['accessToken' => $accessToken]);
     }
@@ -70,8 +67,11 @@ class DefaultController extends Controller
     public function actionAuthorize()
     {
         $server = AppAuthorizationServer::getInstance();
+        /** @var Psr\Http\Message\ServerRequestInterface  */
         $request = Yii::$app->request->getPsr7Request();
         $response = new \Laminas\Diactoros\Response();
+
+        /** @var AuthorizationRequest|null  */
         $authRequest = Yii::$app->getSession()->get('auth_req');
         parse_str($request->getUri()->getQuery(), $queryParams);
 
@@ -82,19 +82,7 @@ class DefaultController extends Controller
                 $queryParams['is_logged_in'] === 'yes' &&
                 !Yii::$app->user->isGuest
             ) {
-                // $authRequest->setUser(UserEntity::findIdentity(Yii::$app->user->identity->id));
-                // // if the user once approved (allowed) the server and any one access token is not revoked nor expired, then now no need to redirect user to allow-deny page
-                // if (AccessTokenEntity::checkToken(Yii::$app->user->identity->id, $authRequest->getClient(), $authRequest->getScopes())) {
-                //     // $authRequest->setAuthorizationApproved(true);
-                //     // Yii::$app->getSession()->set('auth_req', $authRequest);
-                //     // return \Yii::$app->response->mergeWithPsr7Response(
-                //     //     $server->completeAuthorizationRequest($authRequest, $response)
-                //     // );
-                //     return $this->handleApproved($authRequest, $server, $response);
-                // }
-
-                // Yii::$app->getSession()->set('auth_req', $authRequest);
-                // return $this->redirect(['allow-deny-access']);
+                // if the user once approved (allowed) the server and any one access token is not revoked nor expired, then now no need to redirect user to allow-deny page
                 return $this->handleAuthUser($authRequest, $server, $response);
 
                 // when user clicked 'Allow'
@@ -112,39 +100,13 @@ class DefaultController extends Controller
                 );
 
                 // when user is already logged in on server when redirected by client to server to authenticate
-            } elseif (// $authRequest instanceof AuthorizationRequest &&
-                !Yii::$app->user->isGuest
-            ) {
-                // $authRequest = $server->validateAuthorizationRequest($request);
-
-                // // when scope is present in request query string but empty, whitespace, 0 or having similar values, set default to email
-                // // if (!$authRequest->getScopes()) {
-                // //     $authRequest->setScopes([(new ScopeRepository())->getScopeEntityByIdentifier('email')]);
-                // // }
-                // $this->handleDefaultScope($authRequest);
+            } elseif (!Yii::$app->user->isGuest) {
                 unset($authRequest);
                 $authRequest = $this->initialStep($server, $request);
-                // $authRequest->setUser(UserEntity::findIdentity(Yii::$app->user->identity->id));
-                // if (AccessTokenEntity::checkToken(Yii::$app->user->identity->id, $authRequest->getClient(), $authRequest->getScopes())) {
-                //     // $authRequest->setAuthorizationApproved(true);
-                //     // Yii::$app->getSession()->set('auth_req', $authRequest);
-                //     // return \Yii::$app->response->mergeWithPsr7Response(
-                //     //     $server->completeAuthorizationRequest($authRequest, $response)
-                //     // );
-                //     return $this->handleApproved($authRequest, $server, $response);
-                // }
-                // Yii::$app->getSession()->set('auth_req', $authRequest);
-                // return $this->redirect(['allow-deny-access']);
                 return $this->handleAuthUser($authRequest, $server, $response);
-                // The very first step
             }
-            // $authRequest = $server->validateAuthorizationRequest($request);
-            // // when scope is present in request query string but empty, whitespace, 0 or having similar values, set default to email
-            // // if (!$authRequest->getScopes()) {
-            // //     $authRequest->setScopes([(new ScopeRepository())->getScopeEntityByIdentifier('email')]);
-            // // }
-            // $this->handleDefaultScope($authRequest);
 
+            // The very first step in a typical scenario
             unset($authRequest);
             $authRequest = $this->initialStep($server, $request);
             Yii::$app->getSession()->set('auth_req', $authRequest);
@@ -152,7 +114,9 @@ class DefaultController extends Controller
 
         } catch (OAuthServerException $exception) {
             return \Yii::$app->response->mergeWithPsr7Response($exception->generateHttpResponse($response));
+
         } catch (\Exception $exception) {
+
             $body = new Stream(fopen('php://temp', 'r+'));
             $body->write($exception->getMessage());
             Yii::$app->response->statusCode = 500;
@@ -160,6 +124,7 @@ class DefaultController extends Controller
         }
     }
 
+    // Response is sent in JSON format only
     public function actionMyAccessToken()
     {
         $server = AppAuthorizationServer::getInstance();
@@ -206,6 +171,11 @@ class DefaultController extends Controller
         return $this->render('allow-deny-access', ['scopeDesc' => $scopeDesc]);
     }
 
+    /**
+     * Handle Default Scope
+     * @param  AuthorizationRequest $authRequest
+     * @return void
+     */
     protected function handleDefaultScope($authRequest)
     {
         if (!$authRequest->getScopes()) {
@@ -213,6 +183,13 @@ class DefaultController extends Controller
         }
     }
 
+    /**
+     * Handle Approved
+     * @param  AuthorizationRequest $authRequest
+     * @param  AppAuthorizationServer $server
+     * @param  \Laminas\Diactoros\Response $response
+     * @return \app\components\psr7\Response
+     */
     protected function handleApproved($authRequest, $server, $response)
     {
         $authRequest->setAuthorizationApproved(true);
@@ -222,28 +199,32 @@ class DefaultController extends Controller
         );
     }
 
+    /**
+     * Initial Step of validation
+     * @param  AppAuthorizationServer $server
+     * @param  Psr\Http\Message\ServerRequestInterface $request
+     * @return AuthorizationRequest
+     */
     protected function initialStep($server, $request)
     {
         $newAuthRequest = $server->validateAuthorizationRequest($request);
-
         // when scope is present in request query string but empty, whitespace, 0 or having similar values, set default to email
-        // if (!$authRequest->getScopes()) {
-        //     $authRequest->setScopes([(new ScopeRepository())->getScopeEntityByIdentifier('email')]);
-        // }
         $this->handleDefaultScope($newAuthRequest);
         return $newAuthRequest;
     }
 
+    /**
+     * Handle Authenticated User
+     * @param  AuthorizationRequest $authRequest
+     * @param  AppAuthorizationServer $server
+     * @param  \Laminas\Diactoros\Response $response
+     * @return \yii\web\Response
+     */
     protected function handleAuthUser($authRequest, $server, $response)
     {
         $authRequest->setUser(UserEntity::findIdentity(Yii::$app->user->identity->id));
         // if the user once approved (allowed) the server and any one access token is not revoked nor expired, then now no need to redirect user to allow-deny page
         if (AccessTokenEntity::checkToken(Yii::$app->user->identity->id, $authRequest->getClient(), $authRequest->getScopes())) {
-            // $authRequest->setAuthorizationApproved(true);
-            // Yii::$app->getSession()->set('auth_req', $authRequest);
-            // return \Yii::$app->response->mergeWithPsr7Response(
-            //     $server->completeAuthorizationRequest($authRequest, $response)
-            // );
             return $this->handleApproved($authRequest, $server, $response);
         }
 
@@ -251,13 +232,16 @@ class DefaultController extends Controller
         return $this->redirect(['allow-deny-access']);
     }
 
+    /**
+     * Action Revoke
+     * @param  int|string $clientId
+     * @return \yii\web\Response
+     */
     public function actionRevoke($clientId)
     {
-        // echo "string"; die;
         $accessTokens = AccessTokenEntity::find()->andWhere([
             'user_id' => Yii::$app->user->identity->id,
             'oauth_client_id' => $clientId,
-            // 'scopes' => implode(',', AccessTokenRepository::scopesToArray($scopes)),
             'is_revoked' => 0,
         ])->andWhere(
             ['>=', 'expires_at', date('Y-m-d H:i:s')]

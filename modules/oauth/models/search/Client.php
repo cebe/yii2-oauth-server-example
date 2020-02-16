@@ -43,6 +43,7 @@ class Client extends ClientModel
     {
         $query = ClientModel::find();
 
+        // admin can see all clients, rest all user can see only their own clients
         if (!Yii::$app->user->can('administrator')) {
             $query->andWhere(['user_id' => Yii::$app->user->identity->id]);
         }
