@@ -37,7 +37,7 @@ class Client extends \yii\db\ActiveRecord
             [['name', 'redirect_uri'], 'required'],
             [['name', 'redirect_uri'], 'string'],
             [['name'], 'string', 'max' => 255],
-            // [['redirect_uri'], 'url', 'defaultScheme' => 'http'], // for local dev don't put this validation
+            // [['redirect_uri'], 'url', 'defaultScheme' => 'http'], // for local dev don't put this validation // TODO
         ];
     }
 

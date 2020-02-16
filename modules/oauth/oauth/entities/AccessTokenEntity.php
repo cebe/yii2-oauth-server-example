@@ -68,7 +68,7 @@ class AccessTokenEntity extends AccessToken implements AccessTokenEntityInterfac
             ->setSubject((string) $this->getUserIdentifier())
             ->set('scopes', $this->getScopes())
             ->sign(new Sha256(), new Key($privateKey->getKeyPath(), $privateKey->getPassPhrase()))
-            ->withHeader('my-custom-header', json_encode(['my-custom-header-value'=>'dablu', 'foo' => 'bar'])) // add custom data here
+            ->withHeader('my-custom-header', json_encode(['my-custom-header-value'=>'foobar', 'foo' => 'bar'])) // add custom data here
             ->getToken();
     }
 
