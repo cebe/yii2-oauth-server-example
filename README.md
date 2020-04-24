@@ -1,4 +1,5 @@
 # yii2-oauth-server-example
+
 Example application to demonstrate the implementation of an OAuth-Server with Yii 2
 
 ### Getting started
@@ -7,7 +8,7 @@ Example application to demonstrate the implementation of an OAuth-Server with Yi
  - $ `composer install`
  - create new file `config/db.php`
  - put content in that file as:
- ```php
+   ```php
 <?php
 
 return [
