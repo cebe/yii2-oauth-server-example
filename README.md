@@ -3,37 +3,40 @@
 Example application to demonstrate the implementation of an OAuth-Server with Yii 2
 
 ### Getting started
- - $ `git clone https://github.com/cebe/yii2-oauth-server-example.git`
- - $ `cd yii2-oauth-server-example`
- - $ `composer install`
- - create new file `config/db.php`
- - put content in that file as:
-   ```php
-<?php
 
-return [
-    'class' => 'yii\db\Connection',
-    'dsn' => 'mysql:host=localhost;dbname=oauth-jwt-server',
-    'username' => 'PLACEHOLDER', // replace this
-    'password' => 'PLACEHOLDER', // replace this
-    'charset' => 'utf8',
+- $ `git clone https://github.com/cebe/yii2-oauth-server-example.git`
+- $ `cd yii2-oauth-server-example`
+- $ `composer install`
+- create new file `config/db.php`
+- put content in that file as:
+  
+  ```php
+  <?php
 
-    // Schema cache options (for production environment)
-    //'enableSchemaCache' => true,
-    //'schemaCacheDuration' => 60,
-    //'schemaCache' => 'cache',
-];
-```
-  - adjust DB name, user and password accordingly in above file & make sure you have created above database externally (for e.g. phpmyadmin)
-  - hit migration by $ `./yii migrate`
-  - generate private key $ `openssl genrsa -out private.key 2048`
-  - generate public key $ `openssl rsa -in private.key -pubout > public.key`
-  - above both commands will generate 2 files (`public.key` & `private.key`) in project root dir
-  - give them necessary permission $ `sudo chmod -R 600 public.key private.key` (make sure you are present ($ - present working directory) in project root dir (e.g. yii2-oauth-server-example) )
-  - start server by $ ` php -S localhost:7876`
-  - Note: if you choose different port make corresponding change in file `components/OauthServerClient.php` in client app (in your local project)
-  - visit http://localhost:7876/web/index.php in browser
-  - now you should have this web app running in browser
+  return [
+      'class' => 'yii\db\Connection',
+      'dsn' => 'mysql:host=localhost;dbname=oauth-jwt-server',
+      'username' => 'PLACEHOLDER', // replace this
+      'password' => 'PLACEHOLDER', // replace this
+      'charset' => 'utf8',
+
+      // Schema cache options (for production environment)
+      //'enableSchemaCache' => true,
+      //'schemaCacheDuration' => 60,
+      //'schemaCache' => 'cache',
+  ];
+  ```
+
+ - adjust DB name, user and password accordingly in above file & make sure you have created above database externally (for e.g. phpmyadmin)
+ - hit migration by $ `./yii migrate`
+ - generate private key $ `openssl genrsa -out private.key 2048`
+ - generate public key $ `openssl rsa -in private.key -pubout > public.key`
+ - above both commands will generate 2 files (`public.key` & `private.key`) in project root dir
+ - give them necessary permission $ `sudo chmod -R 600 public.key private.key` (make sure you are present ($ - present working directory) in project root dir (e.g. yii2-oauth-server-example) )
+ - start server by $ ` php -S localhost:7876`
+ - Note: if you choose different port make corresponding change in file `components/OauthServerClient.php` in client app (in your local project)
+ - visit http://localhost:7876/web/index.php in browser
+ - now you should have this web app running in browser
 
 
 ### Next step
